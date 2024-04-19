@@ -84,76 +84,6 @@ def generate_avi_3_frames(encoder, predictor, action_conditioner, diffusion_mode
         image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor, interpolation=cv2.INTER_LINEAR)
         return image
 
-    # def generate_video(diffused_frames, frame_t_actual, output_path, fps=5):
-    #     try:
-    #         height, width, _ = cv2.hconcat([invert_transform(diffused_frames[0][0]), invert_transform(frame_t_actual[0])]).shape
-    #     except:
-    #         return False
-
-    #     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
-    #     video_writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-
-    #     # for i in range(0, len(diffused_frames), 5):
-    #     #     predicted_frames = diffused_frames[i:i+5]
-    #     #     actual_frames = frame_t_actual[i:i+5]
-
-    #     #     for frame, actual in zip(predicted_frames, actual_frames):
-    #     #         inverted_frame = invert_transform(frame[0])
-    #     #         actual_frame = invert_transform(actual)
-
-    #     #         concatenated_frame = cv2.hconcat([inverted_frame, actual_frame])
-
-    #     #         video_writer.write(concatenated_frame)
-
-    #     action_names = {
-    #         0: "W", 1: "A", 2: "S", 3: "D", 4: "Space", 5: "Left Shift", 6: "Left Ctrl",
-    #         7: "E", 8: "Q", 9: "Esc", 10: "F", 11: "1", 12: "2", 13: "3", 14: "4",
-    #         15: "5", 16: "6", 17: "7", 18: "8", 19: "9",
-    #         25: "Left Click", 26: "Middle Click", 27: "Right Click"
-    #     }
-
-    #     print(f'{len(diffused_frames)=}')
-
-    #     for i in range(0, len(diffused_frames), 5):
-    #         print(i)
-    #         predicted_frames = diffused_frames[i:i+5]
-    #         actual_frames = frame_t_actual[i:i+5]
-    #         action_frames = actions[i:i+5]
-
-    #         print(len(predicted_frames), len(actual_frames), len(action_frames))
-
-    #         for frame, actual, action in zip(predicted_frames, actual_frames, action_frames):
-    #             inverted_frame = invert_transform(frame[0])
-    #             actual_frame = invert_transform(actual)
-
-    #             # Get the active keyboard and mouse inputs for the current frame
-    #             keyboard_inputs = [action_names[j] for j in range(20) if action[-1, j] == 1]
-    #             mouse_inputs = [action_names[j] for j in range(25, 28) if action[-1, j] == 1]
-
-    #             # Create the text overlay for keyboard inputs
-    #             keyboard_text = ", ".join(keyboard_inputs) if keyboard_inputs else ""
-
-    #             # Create the text overlay for mouse inputs
-    #             mouse_text = ", ".join(mouse_inputs) if mouse_inputs else ""
-
-    #             # Create the text overlay for mouse movement
-    #             mouse_movement_text = f"Mouse: ({action[-1, 20]:.2f}, {action[-1, 21]:.2f}), dx: {action[-1, 22]:.2f}, dy: {action[-1, 23]:.2f}, wheel: {action[-1, 24]:.2f}"
-
-    #             # Add the text overlays to the predicted frame
-    #             cv2.putText(inverted_frame, keyboard_text, (10, inverted_frame.shape[0] - 60),
-    #                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-    #             cv2.putText(inverted_frame, mouse_text, (10, inverted_frame.shape[0] - 40),
-    #                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-    #             cv2.putText(inverted_frame, mouse_movement_text, (10, inverted_frame.shape[0] - 10),
-    #                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-
-    #             concatenated_frame = cv2.hconcat([inverted_frame, actual_frame])
-
-    #             video_writer.write(concatenated_frame)
-
-    #     video_writer.release()
-
-    #     return True
     def generate_video(diffused_frames, frame_t_actual, output_path, fps=5):
         try:
             height, width, _ = cv2.hconcat([invert_transform(diffused_frames[0][0]), invert_transform(frame_t_actual[0])]).shape
@@ -162,13 +92,6 @@ def generate_avi_3_frames(encoder, predictor, action_conditioner, diffusion_mode
 
         fourcc = cv2.VideoWriter_fourcc(*'MJPG')
         video_writer = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
-
-        # action_names = {
-        #     0: "W", 1: "A", 2: "S", 3: "D", 4: "Space", 5: "Left Shift", 6: "Left Ctrl",
-        #     7: "E", 8: "Q", 9: "Esc", 10: "F", 11: "1", 12: "2", 13: "3", 14: "4",
-        #     15: "5", 16: "6", 17: "7", 18: "8", 19: "9",
-        #     25: "Left Click", 26: "Middle Click", 27: "Right Click"
-        # }
 
         for i in range(len(diffused_frames)):
             frame = diffused_frames[i]
@@ -189,27 +112,6 @@ def generate_avi_3_frames(encoder, predictor, action_conditioner, diffusion_mode
 
             inverted_frame = invert_transform(frame[0])
             actual_frame = invert_transform(actual)
-
-            # Get the active keyboard and mouse inputs for the current frame
-            # keyboard_inputs = [action_names[j] for j in range(20) if action[-1, j] == 1]
-            # mouse_inputs = [action_names[j] for j in range(25, 28) if action[-1, j] == 1]
-
-            # Create the text overlay for keyboard inputs
-            # keyboard_text = ", ".join(keyboard_inputs) if keyboard_inputs else ""
-
-            # Create the text overlay for mouse inputs
-            # mouse_text = ", ".join(mouse_inputs) if mouse_inputs else ""
-
-            # Create the text overlay for mouse movement
-            # mouse_movement_text = f"Mouse: ({action[-1, 20]:.2f}, {action[-1, 21]:.2f}), dx: {action[-1, 22]:.2f}, dy: {action[-1, 23]:.2f}, wheel: {action[-1, 24]:.2f}"
-
-            # Add the text overlays to the predicted frame
-            # cv2.putText(inverted_frame, keyboard_text, (10, inverted_frame.shape[0] - 60),
-                        # cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-            # cv2.putText(inverted_frame, mouse_text, (10, inverted_frame.shape[0] - 40),
-                        # cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-            # cv2.putText(inverted_frame, mouse_movement_text, (10, inverted_frame.shape[0] - 10),
-                        # cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
 
             concatenated_frame = cv2.hconcat([inverted_frame, actual_frame])
 

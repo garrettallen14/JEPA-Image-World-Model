@@ -1,0 +1,7 @@
+tqdm
+jupyter
+ipynotebook
+opencv-python
+moviepy
+torch
+torchvision
